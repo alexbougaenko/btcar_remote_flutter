@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:btcar_remote_flutter/flutter_joystick.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   List<String> _options = ['Option 1', 'Option 2', 'Option 3'];
   int _selectedOption = 0;
+  double _x = 0;
+  double _y = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -60,6 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+    });
+  }
+
+  void _updatePosition(details) {
+    setState(() {
+      _x = double.parse((details.x).toStringAsFixed(2));
+      _y = double.parse((details.y).toStringAsFixed(2));
     });
   }
 
@@ -125,9 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Text(
-              'Not connected',
+              '$_x $_y',
               style: Theme.of(context).textTheme.headlineSmall,
             ),
+            Joystick(
+                listener: _updatePosition
+            )
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
